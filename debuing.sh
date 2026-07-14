@@ -1,14 +1,32 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export DEBIAN_FRONTEND=noninteractive
+
 # ============================================================
-# 1. Install tools
+# 1. Install system tools — no Python installation
 # ============================================================
 
-apt install -y build-essential cmake git curl wget tmux htop gdb python3-pip python3-venv ffmpeg libgl1 libglib2.0-0
+apt-get update
 
-echo 'set -g mouse on' >> ~/.tmux.conf
-tmux source-file ~/.tmux.conf 2>/dev/null || true
+apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    git \
+    curl \
+    wget \
+    tmux \
+    htop \
+    gdb \
+    ffmpeg \
+    libgl1 \
+    libglib2.0-0 \
+    ca-certificates \
+    openssh-client
+
+# Reduce cached package data after installation.
+apt-get clean
+rm -rf /var/lib/apt/lists/*
 
 # ============================================================
 # 2. Install Claude Code and OpenAI Codex CLI
@@ -49,7 +67,7 @@ chmod 700 "$HOME/.ssh"
 install -m 600 "$KEY_PATH" "$HOME/.ssh/ai2"
 
 # ============================================================
-# 4. Configure GitHub SSH
+# 4. Configure GitHub SSH and Git identity
 # ============================================================
 
 SSH_CONFIG="$HOME/.ssh/config"
@@ -87,7 +105,7 @@ set -g mouse on
 EOF
 fi
 
-# Reload tmux configuration when a tmux server is already running.
+# Reload the configuration if a tmux server is already running.
 if tmux list-sessions >/dev/null 2>&1; then
     tmux source-file "$TMUX_CONFIG"
 fi
@@ -100,7 +118,6 @@ echo
 echo "Installed versions:"
 claude --version || true
 codex --version || true
-python3 --version
 git --version
 tmux -V
 ffmpeg -version | head -n 1
@@ -114,4 +131,4 @@ echo "Setup complete."
 echo "Restart your shell or run:"
 echo "  source \"$SHELL_RC\""
 
-/bin/sleep 2000000000
+exec /bin/sleep infinity
