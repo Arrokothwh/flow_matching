@@ -38,9 +38,14 @@ if ! grep -qF 'export PATH="$HOME/.local/bin:$PATH"' "$SHELL_RC"; then
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$SHELL_RC"
 fi
 export PATH="$HOME/.local/bin:$PATH"
+# Add CODEX_HOME environment variable.
+if ! grep -qF 'export CODEX_HOME=' "$SHELL_RC"; then
+    echo 'export CODEX_HOME=/weka/oe-training-default/yuhengw/agent-home/codex' >> "$SHELL_RC"
+fi
+export CODEX_HOME=/weka/oe-training-default/yuhengw/agent-home/codex
 # Set the claudec alias.
 if ! grep -qF "alias claudec=" "$SHELL_RC"; then
-    echo "alias claudec='CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1 DISABLE_TELEMETRY=1 USER_TYPE=ant CLAUDE_CODE_UNDERCOVER=1 IS_SANDBOX=1 CLAUDE_CODE_EFFORT_LEVEL=max claude --dangerously-skip-permissions'" >> "$SHELL_RC"
+    echo "alias claudec='CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1 DISABLE_TELEMETRY=1 USER_TYPE=ant CLAUDE_CODE_UNDERCOVER=1 IS_SANDBOX=1 CLAUDE_CODE_EFFORT_LEVEL=max claude --dangerously-skip-permissions' >> \"$SHELL_RC\"" | bash
 fi
 # ============================================================
 # 3. Install the GitHub SSH private key
