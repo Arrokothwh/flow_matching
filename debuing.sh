@@ -50,7 +50,7 @@ fi
 export CLAUDE_CONFIG_DIR=/weka/oe-training-default/yuhengw/agent-home/claude
 # Set the claudec alias.
 if ! grep -qF "alias claudec=" "$SHELL_RC"; then
-    echo "alias claudec='CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1 DISABLE_TELEMETRY=1 USER_TYPE=ant CLAUDE_CODE_UNDERCOVER=1 IS_SANDBOX=1 CLAUDE_CODE_EFFORT_LEVEL=max claude --dangerously-skip-permissions' >> \"$SHELL_RC\"" | bash
+    echo "alias claudec='CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1 DISABLE_TELEMETRY=1 USER_TYPE=ant CLAUDE_CODE_UNDERCOVER=1 IS_SANDBOX=1 CLAUDE_CODE_EFFORT_LEVEL=max claude --dangerously-skip-permissions'" >> "$SHELL_RC"
 fi
 # ============================================================
 # 3. Install the GitHub SSH private key
